@@ -87,8 +87,8 @@ namespace ClientWpf
                     if (!string.IsNullOrEmpty(message))
                     {
                         stringBuilder.AppendLine(message);
-                        //await Task.Run(() => this.textBoxAllMessages.Text = stringBuilder.ToString());
-                        this.textBoxAllMessages.Text = stringBuilder.ToString();
+                        // обязательно оборачиваем в Dispatcher, чтобы мы обратились к UI компоненту в главном потоке
+                        Dispatcher.Invoke(() => this.textBoxAllMessages.Text = stringBuilder.ToString());
                     }
                 }
                 catch
@@ -122,13 +122,11 @@ namespace ClientWpf
                 // запускаем методы на получение и отправку сообщений
                 Task.Run(() => ReceiveMessageAsync(sr));
                 Task.Run(() => SendMessageAsync(sw));
-                //await SendMessageAsync(sw);
             }
             catch (Exception ex)
             {
                 stringBuilder.AppendLine(ex.Message);
                 this.textBoxAllMessages.Text = stringBuilder.ToString();
-                //this.textBoxAllMessages.UpdateLayout();
             }
         }
 
