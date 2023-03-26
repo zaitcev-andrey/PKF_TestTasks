@@ -132,9 +132,14 @@ namespace ClientWpf
 
         private void buttonSend_Click(object sender, RoutedEventArgs e)
         {
-            isSend = true;
             Message = this.textBoxMessage.Text;
-            this.textBoxMessage.Clear();
+            if (!string.IsNullOrEmpty(Message))
+            {
+                isSend = true;
+                stringBuilder.AppendLine($"{UserName}: " + Message);
+                this.textBoxAllMessages.Text = stringBuilder.ToString();
+                this.textBoxMessage.Clear();
+            }
         }
     }
 }
